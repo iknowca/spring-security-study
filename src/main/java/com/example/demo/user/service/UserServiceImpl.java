@@ -34,8 +34,16 @@ public class UserServiceImpl implements UserService {
         String email = requestForm.getEmail();
         String pw = passwordEncoder.encode(requestForm.getPw());
 
-        User user = User.builder().email(email).pw(pw).build();
+        User user = User.builder().email(email).pw(pw).role(requestForm.getRole()).build();
         userRepository.save(user);
         return user.toUserRestForm();
+    }
+
+    @Override
+    public UserResForm getUserInfo(Long userId) {
+        Optional<User> maybeUser = userRepository.findById(userId);
+        UserResForm userResForm =  maybeUser.map(User::toUserRestForm).orElse(null);
+        log.info(String.valueOf(userResForm));
+        return userResForm;
     }
 }

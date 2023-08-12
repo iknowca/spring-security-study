@@ -9,4 +9,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserResForm {
     private String email;
+    private String nickName;
+    private String role;
 }

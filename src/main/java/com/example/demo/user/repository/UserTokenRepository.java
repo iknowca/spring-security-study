@@ -13,7 +13,7 @@ public class UserTokenRepository {
         userTokenMap.put(userToken, email);
     }
 
-    public void getIdByUserToken(String userToken) {
-        userTokenMap.get(userToken);
+    public String getIdByUserToken(String userToken) {
+        return userTokenMap.get(userToken);
     }
 }

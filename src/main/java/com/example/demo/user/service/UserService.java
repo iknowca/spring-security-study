@@ -8,4 +8,6 @@ public interface UserService {
     public User loadUserByUserId(Long id);
 
     UserResForm signUp(SignUpRequestForm requestForm);
+
+    UserResForm getUserInfo(Long userId);
 }

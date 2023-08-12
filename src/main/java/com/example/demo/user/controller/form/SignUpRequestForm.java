@@ -6,4 +6,5 @@ import lombok.Data;
 public class SignUpRequestForm {
     private String email;
     private String pw;
+    private String role;
 }

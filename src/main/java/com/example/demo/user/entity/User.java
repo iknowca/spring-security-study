@@ -22,8 +22,13 @@ public class User {
     private String email;
     private String pw;
     private String nickName;
+    private String role;
 
     public UserResForm toUserRestForm() {
-        return UserResForm.builder().email(this.email).build();
+        return UserResForm.builder()
+                .email(this.email)
+                .nickName(this.nickName)
+                .role(this.role)
+                .build();
     }
 }

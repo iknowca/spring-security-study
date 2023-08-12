@@ -3,6 +3,7 @@ package com.example.demo.config.security.filter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,12 +14,14 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class UserTokenLoginFilter extends AbstractAuthenticationProcessingFilter {
     public UserTokenLoginFilter(String defaultFilterProcessesUrl) {
         super(defaultFilterProcessesUrl);
     }
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+        log.info("UserTokenLoginFilter");
         Map<String, Object> parseRequestToMap = parseJson(request);
         String username = (String) parseRequestToMap.get("email");
         String password = (String) parseRequestToMap.get("pw");

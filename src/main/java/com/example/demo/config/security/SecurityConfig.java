@@ -1,5 +1,6 @@
 package com.example.demo.config.security;
 
+import com.example.demo.config.security.filter.UserTokenCheckFilter;
 import com.example.demo.config.security.filter.UserTokenLoginFilter;
 import com.example.demo.security.costomUser.CustomUserDetailsService;
 import com.example.demo.security.handler.login.UserTokenLoginFailureHandler;
@@ -24,6 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     final CustomUserDetailsService customUserDetailsService;
     final UserTokenRepository userTokenRepository;
+    final UserTokenUtils userTokenUtils;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,9 +43,15 @@ public class SecurityConfig {
 
         http.addFilterBefore(userTokenLoginFilter, UsernamePasswordAuthenticationFilter.class);
 
+        UserTokenCheckFilter userTokenCheckFilter = new UserTokenCheckFilter(userTokenRepository, customUserDetailsService, userTokenUtils);
+        http.addFilterBefore(userTokenCheckFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http
-                .authorizeHttpRequests((authorizeRequests)-> {
-                    authorizeRequests.anyRequest().permitAll();
+                .authorizeHttpRequests((authorizeRequests) -> {
+                    authorizeRequests.requestMatchers("/user/sign-up")
+                            .permitAll();
+                    authorizeRequests.requestMatchers("/user/{userId}")
+                            .hasAnyRole("NORMAL");
                 })
                 .build();
     }
