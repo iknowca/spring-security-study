@@ -1,8 +1,8 @@
-package com.example.demo.config.security.filter;
+package com.example.demo.security.filter;
 
-import com.example.demo.config.security.UserTokenUtils;
+import com.example.demo.security.utils.UserTokenUtils;
 import com.example.demo.security.costomUser.CustomUserDetailsService;
-import com.example.demo.security.exception.AccesstokenException;
+import com.example.demo.security.exception.userTokenException;
 import com.example.demo.user.repository.UserTokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,7 +40,7 @@ public class UserTokenCheckFilter extends OncePerRequestFilter {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             filterChain.doFilter(request, response);
-        } catch (AccesstokenException e) {
+        } catch (userTokenException e) {
             e.sendResponseError(response);
         }
     }

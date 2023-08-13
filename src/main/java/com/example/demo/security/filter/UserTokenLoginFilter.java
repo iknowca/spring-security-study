@@ -1,4 +1,4 @@
-package com.example.demo.config.security.filter;
+package com.example.demo.security.filter;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

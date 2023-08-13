@@ -8,18 +8,17 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 
-public class AccesstokenException extends RuntimeException{
+public class AccessTokenException extends RuntimeException{
     TOKEN_ERROR tokenError;
+
     public enum TOKEN_ERROR {
         UNACCEPT(401, "Token is null or too short"),
         BADTYPE(401, "Token type Bearer"),
         MALFORM(403, "Malformed Token"),
         BADSIGN(403, "BadSignatured Token"),
         EXPIRED(403, "Expired Token");
-
         private final int status;
         private final String msg;
-
         TOKEN_ERROR(int status, String msg) {
             this.status = status;
             this.msg = msg;
@@ -32,7 +31,7 @@ public class AccesstokenException extends RuntimeException{
         }
     }
 
-    public AccesstokenException(TOKEN_ERROR error) {
+    public AccessTokenException(TOKEN_ERROR error) {
         super(error.name());
         this.tokenError = error;
     }
@@ -40,8 +39,8 @@ public class AccesstokenException extends RuntimeException{
     public void sendResponseError(HttpServletResponse response) {
         response.setStatus(tokenError.getStatus());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        Gson gson = new Gson();
 
+        Gson gson = new Gson();
         String responseStr = gson.toJson(Map.of("msg", tokenError.getMsg(), "time", new Date()));
 
         try {
